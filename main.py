@@ -2,34 +2,12 @@ import time
 from PIL import Image
 import numpy as np
 import os
-import random as rnd
-import string
+import random 
 import concurrent.futures
 from transformations import rotate, resizeRandom, scale
 
-def loadClasses(dir):
-    ls = os.listdir(dir)
-    classes = {}
-    reverseClasses = {}
-    with open ('obj.names', 'w') as f:
-        for i in range(len(ls)):
-            classes[ls[i]] = i 
-            reverseClasses[i] = ls[i] 
-            f.write(ls[i])
-            if i != len(ls) - 1:
-                f.write('\n')
-    return classes
-
-def randomFilename():
-    name = ''.join(rnd.choice(letters) for _ in range(filenameSize))
-    return f'{saveDir}/{name}'
-
-def convertYolo(x1,y1,x2,y2, shape):
-    x = ((x1 + x2) / 2) / shape[1]
-    y = ((y1 + y2) / 2) / shape[0]
-    h = abs(y1 - y2) / shape[0]
-    w = abs(x2 - x1) / shape[1]
-    return x, y, w, h
+from data import imgDir, backDir, saveDir, addImgProb, resizeProb, imagesperClass
+from utils import randomFilename, chooseImage, loadClasses, convertYolo
 
 def joinImages(backImgPath, imgPaths):
     try:
@@ -57,8 +35,8 @@ def joinImages(backImgPath, imgPaths):
                     img = img.resize((imgW, imgH))
             elif imgW > bw or imgH > bh:
                 continue 
-            x = rnd.randint(0, bw - imgW)
-            y = rnd.randint(0, bh - imgH)
+            x = random.randint(0, bw - imgW)
+            y = random.randint(0, bh - imgH)
 
             if not b:
                 for i in range(100):
@@ -76,8 +54,8 @@ def joinImages(backImgPath, imgPaths):
                     if b:
                         break
                     else: 
-                        x = rnd.randint(0, bw - imgW)
-                        y = rnd.randint(0, bh - imgH)
+                        x = random.randint(0, bw - imgW)
+                        y = random.randint(0, bh - imgH)
             if b:
                 bboxs.append((x, y, x + imgW, y + imgH))
                 background.paste(img, (x, y), img)
@@ -86,8 +64,8 @@ def joinImages(backImgPath, imgPaths):
         fileName = randomFilename()
         while os.path.exists(f'{fileName}.jpg'):
             fileName = randomFilename()    
-        if rnd.random() < resizeProb:
-            background = scale(background, rnd.randint(5, 30))
+        if random.random() < resizeProb:
+            background = scale(background, random.randint(5, 30))
         background.save(f'{fileName}.jpg')
         with open(f'{fileName}.txt', 'w') as f:
             for i in range(len(bboxs)):
@@ -97,9 +75,6 @@ def joinImages(backImgPath, imgPaths):
                     f.write('\n')
     except Exception as e:
         print(e)
-def chooseImage(classdir):
-    imgPahts = [f'{classdir}/{img}' for img in os.listdir(classdir)]
-    return rnd.choice(imgPahts)
 
 def associate(imgsperClass):
     backImgPaths = [f'{backDir}/{i}' for i in os.listdir(backDir)] 
@@ -111,13 +86,13 @@ def associate(imgsperClass):
         for classdir in classdirs:
             imgs = [chooseImage(classdir)]
             # Add random images
-            if rnd.random() > addImgProb:
+            if random.random() > addImgProb:
                 distribution = np.random.random((1, lnc))[0]
                 for i in range(lnc):
                     if distribution[i] > 0.5:
                         imgs.append(chooseImage(classdirs[i]))
             images.append(imgs)
-            backImgs.append(rnd.choice(backImgPaths))
+            backImgs.append(random.choice(backImgPaths))
     return backImgs, images
 
 
@@ -134,13 +109,5 @@ def main(imgsperClass = 1):
 
 
 if __name__ == '__main__':
-    letters        = string.ascii_lowercase + string.ascii_uppercase
-    imgDir         = 'images/plastics'
-    backDir        = 'images/background'
-    saveDir        = 'dataset'
     classes        = loadClasses(imgDir)
-    addImgProb     = 0.6
-    resizeProb     = 0.96
-    filenameSize   = 10
-    imagesperClass = 2
     main(imagesperClass)

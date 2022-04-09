@@ -1,6 +1,5 @@
 import random as rnd
 import math
-from PIL import Image
 
 def rotate(img):
     img = img.rotate(rnd.randint(0, 359), expand = True)
