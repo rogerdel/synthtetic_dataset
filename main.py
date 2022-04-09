@@ -135,7 +135,7 @@ def main(imgsperClass = 1):
 
 if __name__ == '__main__':
     letters        = string.ascii_lowercase + string.ascii_uppercase
-    imgDir         = 'images/cookies'
+    imgDir         = 'images/plastics'
     backDir        = 'images/background'
     saveDir        = 'dataset'
     classes        = loadClasses(imgDir)

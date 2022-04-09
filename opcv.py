@@ -44,7 +44,7 @@ def getnames(file):
         return f.read().splitlines()
 
 if __name__ == '__main__':
-    dir = 'dataset/obj'
+    dir = 'dataset'
     reve = getnames('obj.names')
     imgpahts = os.listdir(dir)
     imags = 10

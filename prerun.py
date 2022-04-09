@@ -66,16 +66,7 @@ def CropTransparent(dir):
             croppedImg = cropTransparent(image)
             croppedImg.save(path)
             print(f'Cropped {path}')
-def checkTransparent(imagePath):
-    image = Image.open(imagePath)
-    shape = image.size
-    img = np.array(image)
-    transparent = img[0][0]
-    transparent1 = img[0][-1]
-    transparent2 = img[-1][0]
-    transparent3 = img[-1][-1]
-    if (transparent != transparent1).all() or (transparent != transparent2).all() or (transparent != transparent3).all():
-        print(f'{imagePath} no tiene una buena transparencia')
+
 def checkForground(dir):
     ls = os.listdir(dir)
     b = False
@@ -87,7 +78,6 @@ def checkForground(dir):
             try:
                 img = Image.open(path)
                 img.paste(img, (0,0), img)
-                checkTransparent(path)
             except Exception as e:
                 if str(e) == 'bad transparency mask':
                     print(e, path)
@@ -116,12 +106,5 @@ def renameImages(dir):
 
 if __name__ == '__main__':
     # CropTransparent('images/plastics')
-    # renameImages('images/plastics')
+    renameImages('images/plastics')
     # checkForground('images/plastics')
-    img = Image.open('images/plastics/bag/bag 13.png')
-    newimg = cropTransparent(img)
-    # newimg.show()
-# BAG 
-# 13
-# SPOON
-# 20
