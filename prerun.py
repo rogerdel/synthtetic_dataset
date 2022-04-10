@@ -1,8 +1,11 @@
 import os
 import string
+from tkinter import image_names
 from PIL import Image
 import numpy as np
 import random
+import glob
+import subprocess
 # Crop with tranlation
 def cropTransparent2(image):
     shape = image.size
@@ -104,7 +107,40 @@ def renameImages(dir):
             ext = images[j].split('.')[-1]
             os.rename(f'{path}/{images[j]}', f'{path}/{i} {j + 1 }.{ext}')
 
+def map_range(x, in_min, in_max, out_min, out_max):
+  return (x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min
+
+def changeTransparency(imgPath):
+    img = Image.open(imgPath)
+    img.show()
+    factor = float(input('Factor de aumento de transparencia: '))
+    nimg = np.array(img)
+    width, height, _ = nimg.shape
+    for i in range(width):
+        for j in range(height):
+            if nimg[i][j][3] != 0:
+                nimg[i][j][3] = max(int(nimg[i][j][3] * factor), 0)
+    nimg = Image.fromarray(nimg)
+    nimg.show()
+    if input('Save? y/n ')[0] == 'y':
+        nimg.save(imgPath)
+        return True
+     
+    return False
+    
+
+
 if __name__ == '__main__':
     # CropTransparent('images/plastics')
     renameImages('images/plastics')
     # checkForground('images/plastics')
+
+    # imgPaths = ['images/plastics/container/container 2.png', 'images/plastics/container/container 3.png', 'images/plastics/container/container 4.png', 
+    # 'images/plastics/container/container 5.png', 'images/plastics/container/container 6.png', 'images/plastics/container/container 7.png', 'images/plastics/container/container 8.png']
+    # for imgPath in imgPaths:
+    #     while True:
+    #         if changeTransparency(imgPath):
+    #             break
+            
+
+

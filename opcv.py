@@ -28,9 +28,18 @@ def scale(img, scale):
 
 def readImage(name, revClass):
     img = cv.imread(f'{name}.jpg')
+    print(name)
     # img = scale(img, 15)
-    
+    width, height, _ = img.shape
+    # print(width, height)
+    if width > 1200 or height > 1200:
+        val = max(width, height)
+        img = scale(img, (1200/val)*100)
+    if width < 400 or height < 400:
+        img = scale(img, 200)
+
     data = getData(f'{name}.txt')
+    cv.putText(img, str(len(data)), (10, 50 ), cv.FONT_HERSHEY_SCRIPT_SIMPLEX, 2, (255, 255, 0))
     for i in data:
         c, x,y,w,h = i
         x1,y1,x2,y2 = getPoints(x,y,w,h, img.shape)
@@ -43,7 +52,7 @@ def getnames(file):
     with open(file, 'r') as f:
         return f.read().splitlines()
 
-if __name__ == '__main__':
+def main():
     dir = 'dataset'
     reve = getnames('obj.names')
     imgpahts = os.listdir(dir)
@@ -51,4 +60,18 @@ if __name__ == '__main__':
     for i in range(imags):
         name = random.choice(imgpahts).split('.')[0]
         readImage(f'{dir}/{name}', reve)
-        
+
+def test():
+    i = 0
+    dir = 'dataset'
+    reve = getnames('obj.names')
+    imgpahts = os.listdir(dir)
+    for file in imgpahts:
+        name = file.split('.')[0]
+        ext = file.split('.')[1]
+        if ext == 'txt':
+            readImage(f'{dir}/{name}', reve)
+            i += 1 
+
+if __name__ == '__main__':
+    test()

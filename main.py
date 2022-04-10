@@ -1,6 +1,5 @@
 import time
 from PIL import Image
-import numpy as np
 import os
 import random 
 import concurrent.futures
@@ -87,9 +86,8 @@ def associate(imgsperClass):
             imgs = [chooseImage(classdir)]
             # Add random images
             if random.random() > addImgProb:
-                distribution = np.random.random((1, lnc))[0]
                 for i in range(lnc):
-                    if distribution[i] > 0.5:
+                    if random.random() > 0.5:
                         imgs.append(chooseImage(classdirs[i]))
             images.append(imgs)
             backImgs.append(random.choice(backImgPaths))
@@ -107,7 +105,13 @@ def main(imgsperClass = 1):
     end = time.perf_counter()
     print(f'TOTAL TIME: {end -  start}')
 
+def setseed():
+    seed = random.random()
+    random.seed(seed)
+    with open('seed.txt', 'w') as f:
+        f.write(f'{seed}')
 
 if __name__ == '__main__':
+    setseed()
     classes        = loadClasses(imgDir)
     main(imagesperClass)
