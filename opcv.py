@@ -57,10 +57,16 @@ def main():
     reve = getnames('obj.names')
     imgpahts = os.listdir(dir)
     imags = 10
-    for i in range(imags):
-        name = random.choice(imgpahts).split('.')[0]
-        readImage(f'{dir}/{name}', reve)
-
+    c = 0
+    while True:
+        file = random.choice(imgpahts)
+        name = file.split('.')[0]
+        ext = file.split('.')[1]
+        if ext == 'txt':
+            readImage(f'{dir}/{name}', reve)
+            c += 1
+            if c == imags:
+                break
 def test():
     i = 0
     dir = 'dataset'

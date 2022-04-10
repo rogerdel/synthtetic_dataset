@@ -5,7 +5,7 @@ import random
 import concurrent.futures
 from transformations import rotate, resizeRandom, scale
 
-from data import imgDir, backDir, saveDir, addImgProb, resizeProb, imagesperClass
+from data import imgDir, backDir, saveDir, probManyObjs, probAddObj, resizeProb, imagesperClass
 from utils import randomFilename, chooseImage, loadClasses, convertYolo
 
 def joinImages(backImgPath, imgPaths):
@@ -85,9 +85,9 @@ def associate(imgsperClass):
         for classdir in classdirs:
             imgs = [chooseImage(classdir)]
             # Add random images
-            if random.random() > addImgProb:
+            if random.random() < probManyObjs:
                 for i in range(lnc):
-                    if random.random() > 0.5:
+                    if random.random() < probAddObj:
                         imgs.append(chooseImage(classdirs[i]))
             images.append(imgs)
             backImgs.append(random.choice(backImgPaths))
@@ -106,12 +106,13 @@ def main(imgsperClass = 1):
     print(f'TOTAL TIME: {end -  start}')
 
 def setseed():
-    seed = random.random()
+    seed = random.randint(0,10000)
     random.seed(seed)
     with open('seed.txt', 'w') as f:
         f.write(f'{seed}')
 
 if __name__ == '__main__':
+    Image.MAX_IMAGE_PIXELS = None
     setseed()
     classes        = loadClasses(imgDir)
     main(imagesperClass)

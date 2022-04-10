@@ -36,10 +36,7 @@ def scaleUp(img, bw, bh):
 def resizeRandom(backImg, img):
     bw, bh = backImg.size
     if rnd.random() < 0.5:
-        if rnd.random() < 0.5:
-            img = scaleDown(img, bw, bh)
-        else:
-            img = scaleUp(img, bw, bh)
+        img = scaleUp(img, bw, bh)
     return img
 
 def scale(img, factor):
