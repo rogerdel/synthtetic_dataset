@@ -22,33 +22,27 @@ def joinImages(backImgPath, imgPaths):
             bw, bh = background.size
             b = i == 0
             if b:
+                sw = False
                 while True:
-                    sw = False
                     if imgW > bw or imgH > bh:
                         sw = True
-                        imgW /= 2
-                        imgH /= 2
+                        imgW //= 2
+                        imgH //= 2
                     else:
-                        break  
+                        break
                 if sw:
                     img = img.resize((imgW, imgH))
             elif imgW > bw or imgH > bh:
-                continue 
-            x = random.randint(0, bw - imgW)
-            y = random.randint(0, bh - imgH)
+                continue
+
+            x = random.randint(0, bw - int(imgW))
+            y = random.randint(0, bh - int(imgH))
 
             if not b:
                 for i in range(100):
                     b = True
                     for i in bboxs:
                         x1, y1, x2, y2 = i
-                        # consider changing for something like this
-                        
-                        # rect1.x < rect2.x + rect2.width &&
-                        # rect1.x + rect1.width > rect2.x &&
-                        # rect1.y < rect2.y + rect2.height &&
-                        # rect1.height + rect1.y > rect2.y
-
                         b = b and (x1 >= x + imgW or x >= x2) and (y2 >= y or y + imgH >= y1)     
                     if b:
                         break
@@ -62,9 +56,9 @@ def joinImages(backImgPath, imgPaths):
 
         fileName = randomFilename()
         while os.path.exists(f'{fileName}.jpg'):
-            fileName = randomFilename()    
+            fileName = randomFilename()
         if random.random() < resizeProb:
-            background = scale(background, random.randint(5, 30))
+            background = scale(background, random.randint(30, 50))
         background.save(f'{fileName}.jpg')
         with open(f'{fileName}.txt', 'w') as f:
             for i in range(len(bboxs)):
@@ -74,6 +68,8 @@ def joinImages(backImgPath, imgPaths):
                     f.write('\n')
     except Exception as e:
         print(e)
+        print(backImgPath, imgPaths)
+        print(fileName)
 
 def associate(imgsperClass):
     backImgPaths = [f'{backDir}/{i}' for i in os.listdir(backDir)] 
@@ -114,5 +110,6 @@ def setseed():
 if __name__ == '__main__':
     Image.MAX_IMAGE_PIXELS = None
     setseed()
+    # random.seed(9898)
     classes        = loadClasses(imgDir)
     main(imagesperClass)

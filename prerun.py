@@ -110,10 +110,10 @@ def renameImages(dir):
 def map_range(x, in_min, in_max, out_min, out_max):
   return (x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min
 
-def changeTransparency(imgPath):
+def changeTransparency(imgPath, factor):
     img = Image.open(imgPath)
-    img.show()
-    factor = float(input('Factor de aumento de transparencia: '))
+    # img.show()
+    # factor = float(input('Factor de aumento de transparencia: '))
     nimg = np.array(img)
     width, height, _ = nimg.shape
     for i in range(width):
@@ -121,10 +121,10 @@ def changeTransparency(imgPath):
             if nimg[i][j][3] != 0:
                 nimg[i][j][3] = max(int(nimg[i][j][3] * factor), 0)
     nimg = Image.fromarray(nimg)
-    nimg.show()
-    if input('Save? y/n ')[0] == 'y':
-        nimg.save(imgPath)
-        return True
+    # nimg.show()
+    # if input('Save? y/n ')[0] == 'y':
+    nimg.save(imgPath)
+    #     return True
      
     return False
     
@@ -132,15 +132,17 @@ def changeTransparency(imgPath):
 
 if __name__ == '__main__':
     # CropTransparent('images/plastics')
-    renameImages('images/plastics')
-    # checkForground('images/plastics')
-
-    # imgPaths = ['images/plastics/container/container 2.png', 'images/plastics/container/container 3.png', 'images/plastics/container/container 4.png', 
-    # 'images/plastics/container/container 5.png', 'images/plastics/container/container 6.png', 'images/plastics/container/container 7.png', 'images/plastics/container/container 8.png']
+    # renameImages('images/plastics')
+    checkForground('images/plastics')
+    # path = 'C:/Users/Roger/Desktop/new imgs/transparentbags'
+    # imgPaths = [os.path.join(path, i) for i in os.listdir(path)]
+    
     # for imgPath in imgPaths:
-    #     while True:
-    #         if changeTransparency(imgPath):
-    #             break
+    #     # while True:
+    #     rn = random.uniform(0.7, 0.9)
+    #     print(rn)
+    #     changeTransparency(imgPath, rn)
+    #             # break
             
 
 

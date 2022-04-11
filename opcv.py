@@ -52,11 +52,10 @@ def getnames(file):
     with open(file, 'r') as f:
         return f.read().splitlines()
 
-def main():
+def main(imags):
     dir = 'dataset'
     reve = getnames('obj.names')
     imgpahts = os.listdir(dir)
-    imags = 10
     c = 0
     while True:
         file = random.choice(imgpahts)
@@ -80,4 +79,5 @@ def test():
             i += 1 
 
 if __name__ == '__main__':
-    test()
+    # test()
+    main(100)
