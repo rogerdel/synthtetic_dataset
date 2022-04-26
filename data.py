@@ -5,4 +5,4 @@ probManyObjs   = 0.4
 probAddObj     = 0.5
 resizeProb     = 0.96
 filenameSize   = 10
-imagesperClass = 100
+imagesperClass = 1000

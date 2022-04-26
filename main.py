@@ -110,6 +110,5 @@ def setseed():
 if __name__ == '__main__':
     Image.MAX_IMAGE_PIXELS = None
     setseed()
-    # random.seed(9898)
     classes        = loadClasses(imgDir)
     main(imagesperClass)

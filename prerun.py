@@ -131,18 +131,17 @@ def changeTransparency(imgPath, factor):
 
 
 if __name__ == '__main__':
+    pass
     # CropTransparent('images/plastics')
     # renameImages('images/plastics')
-    checkForground('images/plastics')
-    # path = 'C:/Users/Roger/Desktop/new imgs/transparentbags'
+    # checkForground('images/plastics')
+    # path = 'images\plastics\gloves'
     # imgPaths = [os.path.join(path, i) for i in os.listdir(path)]
-    
     # for imgPath in imgPaths:
     #     # while True:
-    #     rn = random.uniform(0.7, 0.9)
+    #     rn = random.uniform(0.8, 0.9)
     #     print(rn)
     #     changeTransparency(imgPath, rn)
-    #             # break
             
 
 
