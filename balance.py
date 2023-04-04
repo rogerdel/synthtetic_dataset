@@ -11,6 +11,11 @@ def move(file, newDir):
 
 
 def balance(dir):
+    """
+    dir: Directory where the dataset was generated
+    
+    Separates generaed images into a obj directory for training and a test directory
+    """
     traindir = f'{dir}/obj'
     testdir = f'{dir}/test' 
     jpgFiles = glob.glob(f'{dir}/*.jpg')

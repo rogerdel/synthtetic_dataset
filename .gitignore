@@ -1,4 +1,4 @@
-env/
+venv/
 images/
 __pycache__/
 *.names

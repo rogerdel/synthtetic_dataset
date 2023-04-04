@@ -2,7 +2,14 @@ import os
 import cv2 as cv
 import random
 
+"""
+Visualize generated images with opencv showign the image and bounding box
+"""
+
 def getPoints(x, y, w, h , shape):
+    """
+    Return image coordenates from YOLO format
+    """
     x1 = int((x - w / 2) * shape[1])
     y1 = int((y - h / 2) * shape[0])
     x2 = int((x + w / 2) * shape[1])
@@ -10,6 +17,11 @@ def getPoints(x, y, w, h , shape):
     return x1,y1,x2,y2
 
 def getData(name):
+    """
+    name: File name of the text file that contains coordnates
+
+    Read file with coordenates
+    """
     lines = []
     with open (name, 'r') as f:
         lns = f.read().splitlines()
@@ -21,6 +33,10 @@ def getData(name):
     return lines
 
 def scale(img, scale):
+    """
+    img: Image 
+    scale: New scale for the image
+    """
     width = int(img.shape[1] * scale / 100)
     height = int(img.shape[0] * scale / 100)
     dim = (width, height)
@@ -32,6 +48,8 @@ def readImage(name, revClass):
     # img = scale(img, 15)
     width, height, _ = img.shape
     # print(width, height)
+
+    # Scale up image when its too big for the scren or its too small to be shown
     if width > 1200 or height > 1200:
         val = max(width, height)
         img = scale(img, (1200/val)*100)
@@ -40,6 +58,7 @@ def readImage(name, revClass):
 
     data = getData(f'{name}.txt')
     cv.putText(img, str(len(data)), (10, 50 ), cv.FONT_HERSHEY_SCRIPT_SIMPLEX, 2, (255, 255, 0))
+    # add bounding boxes in the image
     for i in data:
         c, x,y,w,h = i
         x1,y1,x2,y2 = getPoints(x,y,w,h, img.shape)
@@ -80,4 +99,4 @@ def test():
 
 if __name__ == '__main__':
     # test()
-    main(100)
+    main(1)
