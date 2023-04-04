@@ -7,7 +7,7 @@ import random
 import glob
 import subprocess
 # Crop with tranlation
-def cropTransparent2(image):
+def crop_transparent2(image):
     shape = image.size
     reduce = 10
     rw = shape[0] - (shape[0] // reduce) * reduce
@@ -37,7 +37,7 @@ def cropTransparent2(image):
     area = (minX, minY, maxX, maxY)
     return image.crop(area)
 
-def cropTransparent(image):
+def crop_transparent(image):
     """
     image: Image loaded with pillow
 
@@ -70,7 +70,7 @@ def cropTransparent(image):
     # return image.crop(image.getbbox())
 
 
-def CropTransparent(dir):
+def Crop_transparent(dir):
     """
     dir: Directory that contains the directories of the images
 
@@ -81,14 +81,14 @@ def CropTransparent(dir):
         path = os.path.join(dir, i)
         # If its a derctory recurusively itself with the directory name
         if os.path.isdir(path):
-            CropTransparent(path)
+            Crop_transparent(path)
         else:
             image = Image.open(path)
-            croppedImg = cropTransparent(image)
+            croppedImg = crop_transparent(image)
             croppedImg.save(path)
             print(f'Cropped {path}')
 
-def checkForground(dir):
+def check_forground(dir):
     """
     dir: Directory where are the directories that contain images
 
@@ -101,7 +101,7 @@ def checkForground(dir):
         path = os.path.join(dir, i)
         # if its a directory make a recursive call with the new directory
         if os.path.isdir(path):
-            b = b or  checkForground(path)
+            b = b or  check_forground(path)
         else:            
             # check the trasnparecy if its not it will throw an error
             try:
@@ -113,19 +113,19 @@ def checkForground(dir):
                     b = True
     return b
 
-def randomFilename():
+def random_filename():
     letters = string.ascii_lowercase + string.ascii_uppercase
     return ''.join(random.choice(letters) for _ in range(10))
 
 
-def renameImages(dir):
+def rename_images(dir):
     ls = os.listdir(dir)
     for i in ls:
         path = f'{dir}/{i}'
         images = os.listdir(path)
         for j in range(len(images)):
             ext = images[j].split('.')[-1]
-            os.rename(f'{path}/{images[j]}', f'{path}/{randomFilename()}.{ext}')
+            os.rename(f'{path}/{images[j]}', f'{path}/{random_filename()}.{ext}')
             # print(f'{path}/{images[j]}', f'{path}/{randomFilename()}.{ext}')
         
         images = os.listdir(path)
@@ -136,7 +136,7 @@ def renameImages(dir):
 def map_range(x, in_min, in_max, out_min, out_max):
   return (x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min
 
-def changeTransparency(imgPath, factor):
+def change_transparency(imgPath, factor):
     """
     factor: factor of transparency to be added 
 
@@ -162,13 +162,17 @@ def changeTransparency(imgPath, factor):
 
 
 if __name__ == '__main__':
-    CropTransparent('images/plastics')
-    renameImages('images/plastics')
-    checkForground('images/plastics')
-    path = 'images\plastics\gloves'
-    imgPaths = [os.path.join(path, i) for i in os.listdir(path)]
-    for imgPath in imgPaths:
-        # while True:
-        rn = random.uniform(0.8, 0.9)
-        print(rn)
-        changeTransparency(imgPath, rn)
+    Crop_transparent('images/plastics')
+    rename_images('images/plastics')
+    check_forground('images/plastics')
+
+    # change transparency, this should be done carefully because 
+    # not all images need to be transparent
+    
+    # path = 'images\plastics\gloves'
+    # imgPaths = [os.path.join(path, i) for i in os.listdir(path)]
+    # for imgPath in imgPaths:
+    #     # while True:
+    #     rn = random.uniform(0.8, 0.9)
+    #     print(rn)
+    #     change_transparency(imgPath, rn)

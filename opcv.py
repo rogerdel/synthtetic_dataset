@@ -6,7 +6,7 @@ import random
 Visualize generated images with opencv showign the image and bounding box
 """
 
-def getPoints(x, y, w, h , shape):
+def get_points(x, y, w, h , shape):
     """
     Return image coordenates from YOLO format
     """
@@ -16,7 +16,7 @@ def getPoints(x, y, w, h , shape):
     y2 = int((y + h / 2) * shape[0])
     return x1,y1,x2,y2
 
-def getData(name):
+def get_data(name):
     """
     name: File name of the text file that contains coordnates
 
@@ -42,7 +42,7 @@ def scale(img, scale):
     dim = (width, height)
     return cv.resize(img, dim, interpolation = cv.INTER_AREA)
 
-def readImage(name, revClass):
+def read_image(name, rev_class):
     img = cv.imread(f'{name}.jpg')
     print(name)
     # img = scale(img, 15)
@@ -56,45 +56,45 @@ def readImage(name, revClass):
     if width < 400 or height < 400:
         img = scale(img, 200)
 
-    data = getData(f'{name}.txt')
+    data = get_data(f'{name}.txt')
     cv.putText(img, str(len(data)), (10, 50 ), cv.FONT_HERSHEY_SCRIPT_SIMPLEX, 2, (255, 255, 0))
     # add bounding boxes in the image
     for i in data:
         c, x,y,w,h = i
-        x1,y1,x2,y2 = getPoints(x,y,w,h, img.shape)
+        x1,y1,x2,y2 = get_points(x,y,w,h, img.shape)
         cv.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-        cv.putText(img, revClass[c], (x1 + 5, y1 - 10 ), cv.FONT_HERSHEY_DUPLEX, 1, (0, 255, 0))
+        cv.putText(img, rev_class[c], (x1 + 5, y1 - 10 ), cv.FONT_HERSHEY_DUPLEX, 1, (0, 255, 0))
     cv.imshow('Image', img)
     cv.waitKey(0)
 
-def getnames(file):
+def get_names(file):
     with open(file, 'r') as f:
         return f.read().splitlines()
 
 def main(imags):
     dir = 'dataset'
-    reve = getnames('obj.names')
-    imgpahts = os.listdir(dir)
+    reve = get_names('obj.names')
+    img_paths = os.listdir(dir)
     c = 0
     while True:
-        file = random.choice(imgpahts)
+        file = random.choice(img_paths)
         name = file.split('.')[0]
         ext = file.split('.')[1]
         if ext == 'txt':
-            readImage(f'{dir}/{name}', reve)
+            read_image(f'{dir}/{name}', reve)
             c += 1
             if c == imags:
                 break
 def test():
     i = 0
     dir = 'dataset'
-    reve = getnames('obj.names')
-    imgpahts = os.listdir(dir)
-    for file in imgpahts:
+    reve = get_names('obj.names')
+    img_paths = os.listdir(dir)
+    for file in img_paths:
         name = file.split('.')[0]
         ext = file.split('.')[1]
         if ext == 'txt':
-            readImage(f'{dir}/{name}', reve)
+            read_image(f'{dir}/{name}', reve)
             i += 1 
 
 if __name__ == '__main__':

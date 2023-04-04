@@ -6,7 +6,7 @@ def rotate(img):
     img = img.crop(img.getbbox())
     return img
     
-def scaleDown(img, bw, bh):
+def scale_down(img, bw, bh):
     minAspectRatio = 0.25
     scale = rnd.random()
     w, h = img.size 
@@ -21,7 +21,7 @@ def scaleDown(img, bw, bh):
     h = math.ceil(h * scale)
     return img.resize((w, h))
 
-def scaleUp(img, bw, bh):
+def scale_up(img, bw, bh):
     w, h = img.size 
     scale =  rnd.randint(2,10)
     while True:
@@ -33,10 +33,10 @@ def scaleUp(img, bw, bh):
     h = int(h * scale)    
     return img.resize((w, h))
 
-def resizeRandom(backImg, img):
+def resize_random(backImg, img):
     bw, bh = backImg.size
     if rnd.random() < 0.5:
-        img = scaleUp(img, bw, bh)
+        img = scale_up(img, bw, bh)
     return img
 
 def scale(img, factor):
@@ -44,9 +44,3 @@ def scale(img, factor):
     width = int(width * factor / 100)
     height = int(height * factor / 100)
     return img.resize((width, height))
-
-if __name__ == '__main__':
-    pass
-    # img = Image.open('images/cookies/oreo/oreo 1.png')
-    # img = scale(img, 400)
-    # img.save('images/cookies/oreo/oreo 1.png')

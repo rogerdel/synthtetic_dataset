@@ -3,4 +3,5 @@ images/
 __pycache__/
 *.names
 dataset/
-*.txt
+seed.txt
+obj.names
