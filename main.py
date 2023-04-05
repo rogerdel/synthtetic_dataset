@@ -5,7 +5,7 @@ import random
 import concurrent.futures
 from transformations import rotate, resize_random, scale
 
-from data import images_dir, background_dir, save_dir, prob_many_objs, prob_add_obj, resize_prob, imagesperClass
+from data import images_dir, background_dir, save_dir, prob_many_objs, prob_add_obj, resize_prob, images_per_class
 from utils import random_filename, choose_image, load_classes, convert_yolo
 
 def join_images(backImgPath, imgPaths):
@@ -151,4 +151,4 @@ if __name__ == '__main__':
     Image.MAX_IMAGE_PIXELS = None
     set_seed()
     classes = load_classes(images_dir)
-    main(imagesperClass)
+    main(images_per_class)

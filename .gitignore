@@ -4,4 +4,3 @@ __pycache__/
 *.names
 dataset/
 seed.txt
-obj.names

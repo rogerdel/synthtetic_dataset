@@ -13,8 +13,9 @@ save_dir        = 'dataset'
 
 prob_many_objs   = 0.4
 
+# Probabylity of one object image to be added
 # When one more than object will be added per background image 
-# this value is the probabily of adding a type or class of an object
+# prob_add_obj is the probabily of adding a type or class of an object
 # e.g there are three classes of objects A,B,C and the values is 0.5
 # there is a 50% of adding an object A, 50% of adding an object of B
 # and 50% of adding an object of C
@@ -32,4 +33,4 @@ filename_size   = 10
 # there will be at least 10 images with A object , 10 images with B objects 
 # and 10 images with C object. In total 30 images will be generated
 
-imagesperClass = 10
+images_per_class = 10
