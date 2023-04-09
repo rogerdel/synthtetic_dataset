@@ -8,8 +8,19 @@ Example:
 
 Images are not realistic however they could be helpful for data augmentation
 
+## Table of Contents
+- [Requirements](#requirements)
+- [Set up](#set-up)
+    - [Clone repo](#clone-repo)
+    - [Folder structure](#folder-structure)
+    - [Create a python virtual environment](#create-a-python-virtual-environment)
+    - [Variable configuration](#variable-configuration)
+- [Prerun](#prerun)
+- [Run](#run)
+    - [Watch](#watch)
 
-## Requirments
+
+## Requirements
 - python
 
 ## Set up
